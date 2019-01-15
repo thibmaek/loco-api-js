@@ -1,1 +1,6 @@
+# Dependencies
 node_modules
+
+# Build artifacts
+.rts2_*
+dist
