@@ -1,14 +1,21 @@
 {
-  "name": "loco-node",
-  "version": "1.0.0",
-  "description": "",
+  "name": "loco-api-js",
+  "version": "0.0.0",
+  "description": "Javascript API wrapper for Loco translation system's REST API",
   "scripts": {
     "build": "microbundle",
-    "dev": "microbundle watch"
+    "dev": "microbundle watch",
+    "release": "npm t && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "loco",
+    "localise.biz",
+    "node",
+    "esm"
+  ],
+  "author": "Thibault Maekelbergh",
+  "license": "MIT",
+  "repository": "thibmaek/loco-api-js",
   "devDependencies": {
     "microbundle": "^0.9.0"
   },
@@ -16,6 +23,12 @@
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "source": "src/index.js",
+  "files": [
+    "src",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "dependencies": {
     "install": "^0.12.2",
     "isomorphic-unfetch": "^3.0.0",
