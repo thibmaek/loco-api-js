@@ -30,9 +30,6 @@
     "README.md"
   ],
   "dependencies": {
-    "install": "^0.12.2",
-    "isomorphic-unfetch": "^3.0.0",
-    "npm": "^6.5.0",
-    "pure-fun": "^1.14.0"
+    "isomorphic-unfetch": "^3.0.0"
   }
 }
