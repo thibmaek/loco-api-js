@@ -30,6 +30,8 @@ yarn add loco-api-js
 
 ## Usage
 
+See and run [example.js](https://github.com/thibmaek/loco-api-js/example.js) or [try it out in a REPL](https://repl.it/@thibmaek/node-loco-api-js-demo)
+
 ```js
 // ESM (Bundlers, Modern engines)
 import LocoClient from 'loco-api-js';
@@ -44,8 +46,8 @@ const loco = new LocoClient('<your-api-key>');
   console.log(await loco.getAsset('some.asset.path'));
   console.log(await loco.getAsset(['some', 'asset', 'path']));
   console.log(await loco.getAssetsByTags(['1.5.0']));
+  console.log(await loco.exportArchive());
 })();
-
 ```
 
 ## API
