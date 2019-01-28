@@ -8,4 +8,5 @@ const loco = new LocoClient();
   console.log(await loco.getLocales());
   console.log(await loco.getLocaleKeys());
   console.log(await loco.exportToFile());
+  console.log(await loco.exportArchive());
 })();

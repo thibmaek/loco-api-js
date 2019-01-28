@@ -19,11 +19,11 @@ export default async (subPath, opts = {}) => {
 /**
  * Calls the Loco API and saves the response to a file
  */
-export const fetchFile = async (subPath, opts = {}) => {
+export const fetchFile = async (subPath, opts = {}, fileName = 'fetchedFile') => {
   if (!env.isNode) throw new Error(`Fetching files is only supported in Node`);
 
   const response = await fetch(`https://localise.biz/api${subPath}`, opts);
-  const dest = fs.createWriteStream('./loco-locales.zip');
+  const dest = fs.createWriteStream(`./${fileName}`);
 
   return response.body.pipe(dest);
 }
