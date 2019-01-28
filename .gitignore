@@ -4,3 +4,7 @@ node_modules
 # Build artifacts
 .rts2_*
 dist
+
+# Exported data
+loco-locales.json
+loco-locales.zip
