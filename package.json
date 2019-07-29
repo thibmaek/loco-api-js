@@ -1,11 +1,11 @@
 {
   "name": "loco-api-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Javascript API wrapper for Loco translation system's REST API",
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
-    "release": "./Taskfile publish"
+    "release": "./Taskfile.sh publish"
   },
   "keywords": [
     "loco",
