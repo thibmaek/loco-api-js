@@ -64,15 +64,18 @@ export default class LocoClient {
   /**
    * Export a specified locale.
    */
-  exportLocale = async (locale, opts = defaultExportOptions) => this.export({
-    ...opts,
-    type: `locale/${locale}`,
-  });
+  exportLocale = async (locale, opts = {}) => {
+    const params = { ...defaultExportOptions, ...opts };
+    return this.export({
+      ...params,
+      type: `locale/${locale}`,
+    });
+  }
 
   /**
    * Export all locales to one JSON file.
    */
-  exportToFile = async (opts, formatted = true) => {
+  exportToFile = async (opts = {}, formatted = true) => {
     if (!env.isNode) throw new Error(`exportToFile is only supported in Node`);
 
     const fs = require('fs');
@@ -86,24 +89,43 @@ export default class LocoClient {
   /**
    * Export all locales, split up in folders but in an archive (zip).
    */
-  exportArchive = async (opts = defaultExportOptions) => {
+  exportArchive = async (opts = {}) => {
     if (!env.isNode) throw new Error(`exportArchive is only supported in Node`);
 
-    return this.makeRequest([
+    const params = { ...defaultExportOptions, ...opts };
+
+    const requestURL = [
       `/export/archive/json.zip`,
-      `?order=${opts.order}&fallback=${opts.fallback}`,
-    ].join(''), undefined, true);
+      `?order=${params.order}&fallback=${params.fallback}`,
+      params.tags ? `&${this.getTagFilterString(params.tags)}` : '',
+    ].join('');
+
+    console.log(requestURL);
+
+    return this.makeRequest(requestURL, undefined, true);
   }
 
   /**
-   * @internal
+   * @private
+   * Return the query parameter for fitlering by tags
+   */
+  getTagFilterString = (tags) => {
+    return `filter=${
+      Array.isArray(tags) ? tags.join(','): tags
+    }`;
+  }
+
+  /**
+   * @private
    * Read the complete locale(s) and export them
    */
-  export = async (opts = defaultExportOptions) => {
+  export = async (opts = {}) => {
+    const params = { ...defaultExportOptions, ...opts };
     try {
       return this.makeRequest([
-        `/export/${opts.type}.${opts.format}`,
-        `?order=${opts.order}&fallback=${opts.fallback}`,
+        `/export/${params.type}.${params.format}`,
+        `?order=${params.order}&fallback=${params.fallback}`,
+        params.tags ? `&${this.getTagFilterString(params.tags)}` : '',
       ].join(''));
     } catch (error) {
       console.error('Error exporting locale: ', error);
@@ -111,7 +133,7 @@ export default class LocoClient {
   }
 
   /**
-   * @internal
+   * @private
    * Make a request against the Loco REST API.
    * This function can be used to fetch text and binary data and includes
    * all the necessary headers and params needed to use the REST API.

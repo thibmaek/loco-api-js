@@ -9,4 +9,5 @@ const loco = new LocoClient();
   console.log(await loco.getLocaleKeys());
   console.log(await loco.exportToFile());
   console.log(await loco.exportArchive());
+  console.log(await loco.exportArchive({ tags: ['production'] }));
 })();
