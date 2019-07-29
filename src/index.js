@@ -100,8 +100,6 @@ export default class LocoClient {
       params.tags ? `&${this.getTagFilterString(params.tags)}` : '',
     ].join('');
 
-    console.log(requestURL);
-
     return this.makeRequest(requestURL, undefined, true);
   }
 
