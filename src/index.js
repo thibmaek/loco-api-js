@@ -66,7 +66,7 @@ export default class LocoClient {
    */
   exportLocale = async (locale, opts = {}) => {
     const params = { ...defaultExportOptions, ...opts };
-    return this.export({
+    return this.doExport({
       ...params,
       type: `locale/${locale}`,
     });
@@ -82,7 +82,7 @@ export default class LocoClient {
     const { promisify } = require('util');
     const writeFileAsync = promisify(fs.writeFile);
 
-    const contents = await this.export(opts);
+    const contents = await this.doExport(opts);
     await writeFileAsync(`${this.defaultFileName}.json`, JSON.stringify(contents, null, formatted ? 2 : 0));
   }
 
@@ -117,7 +117,7 @@ export default class LocoClient {
    * @private
    * Read the complete locale(s) and export them
    */
-  export = async (opts = {}) => {
+  doExport = async (opts = {}) => {
     const params = { ...defaultExportOptions, ...opts };
     try {
       return this.makeRequest([
