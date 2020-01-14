@@ -107,9 +107,23 @@ export default class LocoClient {
    * @private
    * Return the query parameter for fitlering by tags
    */
-  getTagFilterString = (tags) => {
-    return `filter=${
-      Array.isArray(tags) ? tags.join(','): tags
+  getTagFilterString = (params) => {
+    if (!params.tags && !params.withoutTags) return '';
+
+    const tags = Array.isArray(params.tags)
+      ? params.tags.join(',')
+      : params.tags
+
+    const withoutTags = Array.isArray(params.withoutTags)
+      ? params.withoutTags.map(tag => `!${tag}`).join(',')
+      : params.withoutTags
+
+    return `&filter=${
+      tags || ''
+    }${
+      tags && withoutTags ? ',' : ''
+    }${
+      withoutTags || ''
     }`;
   }
 
@@ -119,12 +133,19 @@ export default class LocoClient {
    */
   doExport = async (opts = {}) => {
     const params = { ...defaultExportOptions, ...opts };
+
+    const requestURL = [
+      `/export/${params.type}.${params.format}`,
+      `?order=${params.order}&fallback=${params.fallback}`,
+      this.getTagFilterString(params),
+    ].join('')
+
+    if (this.options.verbose && (params.tags || params.withoutTags)) {
+      console.log(`[loco-api-js@export]: Filters have been provided: tags: ${params.tags} / withoutTags: ${params.withoutTags}`);
+    }
+
     try {
-      return this.makeRequest([
-        `/export/${params.type}.${params.format}`,
-        `?order=${params.order}&fallback=${params.fallback}`,
-        params.tags ? `&${this.getTagFilterString(params.tags)}` : '',
-      ].join(''));
+      return this.makeRequest(requestURL);
     } catch (error) {
       console.error('Error exporting locale: ', error);
     }
@@ -137,6 +158,10 @@ export default class LocoClient {
    * all the necessary headers and params needed to use the REST API.
    */
   makeRequest = async (apiPath, requestOptions = {}, binaryData = false) => {
+    if (this.options.verbose) {
+      console.log(`[loco-api-js@makeRequest]: Performing API request with URL: ${requestURL}`);
+    }
+
     if (binaryData) {
       return fetchFile(apiPath, {
         headers: {
