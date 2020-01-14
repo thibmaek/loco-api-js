@@ -46,11 +46,36 @@ const loco = new LocoClient('<your-api-key>');
   console.log(await loco.getAsset('some.asset.path'));
   console.log(await loco.getAsset(['some', 'asset', 'path']));
   console.log(await loco.getAssetsByTags(['1.5.0']));
-  console.log(await loco.exportArchive());
+  console.log(await loco.exportToFile({
+    tags: ['production'],
+    withoutTags: ['unused'],
+  }));
+  console.log(await loco.exportArchive({
+    tags: ['production'],
+    withoutTags: ['unused'],
+  }));
 })();
 ```
 
 ## API
+
+### LocoClient
+
+_These options can be provided in an object as a second argument when creating the client to interact with._
+
+| Option              | Type      | Requirement  | Description                                                             | Default             |
+| ------------------- | --------- | ------------ | ----------------------------------------------------------------------- | ------------------- |
+| fileName            | `string`  | **Optional** | When provided, methods that export a file (JSON/ZIP) will use this name | `loco-locales`      |
+| debug               | `boolean` | **Optional** | Will be more verbose in output and show for example the API req. URL    | `false`             |
+
+### Client.exportToFile, Client.exportArchive
+
+_Provide as an object to the methods that export a file._
+
+| Option      | Type            | Requirement  | Description                                     | Default     |
+| ----------- | --------------- | ------------ | ----------------------------------------------- | ----------- |
+| tags        | `Array<string>` | **Optional** | Only assets with these tags will be included    | `undefined` |
+| withoutTags | `Array<string>` | **Optional** | Assets that carry this tag will not be included | `undefined` |
 
 ## Maintainers
 
@@ -64,4 +89,4 @@ Small note: If editing the README, please conform to the [standard-readme](https
 
 ## License
 
-MIT © 2019 Thibault Maekelbergh
+MIT © 2019 - current Thibault Maekelbergh
