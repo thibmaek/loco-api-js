@@ -34,6 +34,8 @@ const exportOptions = {
   console.log(await loco.getAssetsByTags(['1.5.0']));
   console.log(await loco.getLocales());
   console.log(await loco.getLocaleKeys());
+  console.log(await loco.getTranslation('asset.key', 'en'))
+  console.log(await loco.getTranslation('asset.key', 'en', false)) // returns the full translation object
   console.log(await loco.exportToFile(exportOptions));
   console.log(await loco.exportArchive(exportOptions));
 })();

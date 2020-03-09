@@ -46,6 +46,7 @@ const loco = new LocoClient('<your-api-key>');
   console.log(await loco.getAsset('some.asset.path'));
   console.log(await loco.getAsset(['some', 'asset', 'path']));
   console.log(await loco.getAssetsByTags(['1.5.0']));
+  console.log(await loco.getTranslation('some.asset.path', 'en'));
   console.log(await loco.exportToFile({
     tags: ['production'],
     withoutTags: ['unused'],

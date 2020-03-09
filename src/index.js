@@ -9,10 +9,7 @@ export default class LocoClient {
 
     this.apiKey = apiKey;
     this.options = options;
-  }
-
-  get defaultFileName() {
-    return this.options.fileName || 'loco-locales';
+    this.defaultFileName = options.fileName || 'loco-locales';
   }
 
   /**
@@ -60,6 +57,13 @@ export default class LocoClient {
     const locales = await this.getLocales();
     return locales.map(locale => locale.code);
   };
+
+  getTranslation = async (assetId, locale, simple = true) => {
+    const translation = await this.makeRequest(`/translations/${assetId}/${locale}`);
+    if (simple) {
+      return translation.translation
+    }
+  }
 
   /**
    * Export a specified locale.
