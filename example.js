@@ -38,4 +38,11 @@ const exportOptions = {
   console.log(await loco.getTranslation('asset.key', 'en', false)) // returns the full translation object
   console.log(await loco.exportToFile(exportOptions));
   console.log(await loco.exportArchive(exportOptions));
+  console.log(
+    await loco.createAsset({
+      id: "newAsset.key",
+      text: "default text",
+    })
+  );
+  console.log(await loco.tagAsset("newAsset.key", "1.5.0"));
 })();
