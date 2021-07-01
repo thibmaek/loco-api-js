@@ -207,18 +207,20 @@ export default class LocoClient {
 
     if (binaryData) {
       return fetchFile(apiPath, {
+        ...requestOptions,
         headers: {
+          ...requestOptions.headers,
           Authorization: `Loco ${this.apiKey}`,
         },
-        ...requestOptions,
       }, `${this.defaultFileName}.zip`)
     }
 
     return fetch(apiPath, {
+      ...requestOptions,
       headers: {
+        ...requestOptions.headers,
         Authorization: `Loco ${this.apiKey}`,
       },
-      ...requestOptions,
     });
   }
 }
