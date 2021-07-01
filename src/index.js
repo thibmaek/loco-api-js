@@ -1,3 +1,5 @@
+import FormData from 'form-data';
+
 import fetch, { fetchFile } from './util/fetch';
 import { defaultExportOptions } from './util/const';
 import { intersect } from './util/array';
@@ -16,6 +18,43 @@ export default class LocoClient {
    * Returns all assets for the project.
    */
   getAssets = async () => await this.makeRequest('/assets');
+
+    /**
+   * Add a new translatable asset.
+   * @param {Object} opts - parameters to pass to Loco
+   * @param {string} opts.id
+   * @param {string} opts.text
+   * @param {string} opts.type
+   * @param {string} opts.context
+   * @param {string} opts.notes
+   * @param {string} opts.default
+   */
+  createAsset = async (opts = {}) => {
+    const formData = new FormData();
+    for (const key in opts) {
+      formData.append(key, opts[key]);
+    }
+    return this.makeRequest("/assets", {
+      method: "POST",
+      body: formData,
+      headers: formData.getHeaders(),
+    });
+  };
+  
+  /**
+   * Tags an asset with a new or existing term. If the tag doesn't exist it will be created.
+   * @param {string} id Asset ID
+   * @param {string} tag Name of new or existing tag
+   */
+  tagAsset = async (id, tag) => {
+    const formData = new FormData();
+    formData.append("name", tag);
+    return this.makeRequest(`/assets/${id}/tags`, {
+      method: "POST",
+      body: formData,
+      headers: formData.getHeaders(),
+    });
+  };
 
   /**
    * Returns one specific asset by the given id (string) or array of strings
